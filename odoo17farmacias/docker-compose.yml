@@ -4,9 +4,9 @@ services:
         container_name: odoo_farmacias_server
         image: odoo:17.0
         volumes:
-            - ./addons-extra:/mnt/extra-addons
-            - ./etc/odoo:/etc/odoo
             - odoo-web-data:/var/lib/odoo
+            - ./conf:/etc/odoo
+            - ./addons-extra:/mnt/extra-addons
         ports:
             - "9069:9069"
         depends_on:

@@ -1,0 +1,38 @@
+# generated from manifests external_dependencies
+acme
+astor
+cryptography==3.4.8; python_version < '3.12'  # incompatibility between pyopenssl 19.0.0 and cryptography>=37.0.0
+cryptography==42.0.8 ; python_version >= '3.12'  # (Noble) min 41.0.7, pinning 42.0.8 for security fixes
+dataclasses
+dnspython
+josepy
+lxml==4.8.0 ; python_version <= '3.10'
+lxml==4.9.3 ; python_version > '3.10' and python_version < '3.12' # min 4.9.2, pinning 4.9.3 because of missing wheels for darwin in 4.9.3
+lxml==5.2.1; python_version >= '3.12' # (Noble - removed html clean)
+mako
+odoorpc
+openupgradelib
+pysftp
+sentry_sdk
+# generated from manifests external_dependencies
+cachetools
+# generated from manifests external_dependencies
+cssselect
+# generated from manifests external_dependencies
+boto3
+paramiko
+pyftpdlib
+python_slugify
+urllib3==1.26.5 ; python_version < '3.12' # indirect / min version = 1.25.8 (Focal with security backports)
+urllib3==2.0.7  ; python_version >= '3.12'  # (Noble) Compatibility with cryptography
+Werkzeug==2.0.2 ; python_version <= '3.10' 
+Werkzeug==2.2.2 ; python_version > '3.10' and python_version < '3.12'
+Werkzeug==3.0.1 ; python_version >= '3.12'  # (Noble) Avoid deprecation warnings
+fsspec>=2024.5.0
+dropbox
+pyncclient
+nextcloud-api-wrapper
+fsspec[s3]
+PyPDF2==1.26.0 ; python_version <= '3.10'
+PyPDF2==2.12.1 ; python_version > '3.10'
+email_validator
