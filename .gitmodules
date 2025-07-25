@@ -1,0 +1,68 @@
+[submodule "odoo17farmacias/extra-addons/localization_pe_contact"]
+	path = odoo17farmacias/extra-addons/localization_pe_contact
+	url = https://github.com/Inbrasol/localization_pe_contact.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/themes"]
+	path = odoo17farmacias/extra-addons/themes
+	url = https://github.com/Inbrasol/themes.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/localization_pe_l10n_pe"]
+	path = odoo17farmacias/extra-addons/localization_pe_l10n_pe
+	url = https://github.com/Inbrasol/localization_pe_l10n_pe.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/crm"]
+	path = odoo17farmacias/extra-addons/crm
+	url = https://github.com/Inbrasol/crm.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/calendar"]
+	path = odoo17farmacias/extra-addons/calendar
+	url = https://github.com/Inbrasol/calendar.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/storage"]
+	path = odoo17farmacias/extra-addons/storage
+	url = https://github.com/Inbrasol/storage.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/server-tools"]
+	path = odoo17farmacias/extra-addons/server-tools
+	url = https://github.com/Inbrasol/server-tools.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/extra_tools"]
+	path = odoo17farmacias/extra-addons/extra_tools
+	url = https://github.com/Inbrasol/extra_tools.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/social"]
+	path = odoo17farmacias/extra-addons/social
+	url = https://github.com/Inbrasol/social.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/stock-logistics-warehouse"]
+	path = odoo17farmacias/extra-addons/stock-logistics-warehouse
+	url = https://github.com/Inbrasol/stock-logistics-warehouse.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/stock-logistics-workflow"]
+	path = odoo17farmacias/extra-addons/stock-logistics-workflow
+	url = https://github.com/Inbrasol/stock-logistics-workflow.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/point_of_sale"]
+	path = odoo17farmacias/extra-addons/point_of_sale
+	url = https://github.com/Inbrasol/point_of_sale.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/website_sale"]
+	path = odoo17farmacias/extra-addons/website_sale
+	url = https://github.com/Inbrasol/website_sale.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/website"]
+	path = odoo17farmacias/extra-addons/website
+	url = https://github.com/Inbrasol/website.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/purchase"]
+	path = odoo17farmacias/extra-addons/purchase
+	url = https://github.com/Inbrasol/purchase.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/sale"]
+	path = odoo17farmacias/extra-addons/sale
+	url = https://github.com/Inbrasol/sale.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/contact"]
+	path = odoo17farmacias/extra-addons/contact
+	url = https://github.com/Inbrasol/contact.git
+	branch = 17.0
