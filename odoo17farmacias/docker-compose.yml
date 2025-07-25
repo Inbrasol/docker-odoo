@@ -6,7 +6,7 @@ services:
         volumes:
             - odoo-web-data:/var/lib/odoo
             - ./conf:/etc/odoo
-            - ./addons-extra:/mnt/extra-addons
+            - ./extra-addons:/mnt/extra-addons
         ports:
             - "9069:9069"
         depends_on:
