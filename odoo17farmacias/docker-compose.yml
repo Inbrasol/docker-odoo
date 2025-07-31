@@ -3,6 +3,7 @@ services:
     odoo:
         container_name: odoo_farmacias_server
         image: odoo:17.0
+        restart: unless-stopped
         volumes:
             - odoo-web-data:/var/lib/odoo
             - ./conf:/etc/odoo
@@ -10,9 +11,11 @@ services:
         ports:
             - "9069:9069"
         depends_on:
-            - postgres
+            postgres:
+                condition: service_healthy
     postgres:
         image: postgres:16
+        restart: unless-stopped
         container_name: postgres_odoo
         environment:
             - POSTGRES_DB=postgres
@@ -21,6 +24,11 @@ services:
             - PGDATA=/var/lib/postgresql/data/pgdata
         volumes:
             - odoo-db-data:/var/lib/postgresql/data/pgdata
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "odoo"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
     nginx:
         container_name: nginx_odoo
         image: nginx:latest
@@ -35,6 +43,7 @@ services:
     certbot:
         container_name: certbot_odoo
         image: certbot/certbot:latest
+        restart: unless-stopped
         command: certonly --webroot --webroot-path=/var/www/html -- email youremail@mail.com --agree-tos --no-eff-email -d domain.com -d www.domain.com
         volumes:
             - ./certbot/conf:/etc/letsencrypt
