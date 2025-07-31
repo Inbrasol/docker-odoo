@@ -66,3 +66,7 @@
 	path = odoo17farmacias/extra-addons/contact
 	url = https://github.com/Inbrasol/contact.git
 	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/multi-company"]
+	path = odoo17farmacias/extra-addons/multi-company
+	url = git@github.com:Inbrasol/multi-company.git
+	branch = 17.0
