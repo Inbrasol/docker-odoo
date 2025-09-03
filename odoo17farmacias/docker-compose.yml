@@ -11,8 +11,7 @@ services:
         ports:
             - "9069:9069"
         depends_on:
-            postgres:
-                condition: service_healthy
+            - postgres
     postgres:
         image: postgres:16
         restart: unless-stopped
@@ -24,11 +23,6 @@ services:
             - PGDATA=/var/lib/postgresql/data/pgdata
         volumes:
             - odoo-db-data:/var/lib/postgresql/data/pgdata
-        healthcheck:
-            test: ["CMD", "pg_isready", "-U", "odoo"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
     nginx:
         container_name: nginx_odoo
         image: nginx:latest
@@ -40,15 +34,15 @@ services:
             - ./nginx/conf:/etc/nginx/conf.d
             - ./certbot/conf:/etc/nginx/ssl
             - ./certbot/data:/var/www/html
-    certbot:
-        container_name: certbot_odoo
-        image: certbot/certbot:latest
-        restart: unless-stopped
-        command: certonly --webroot --webroot-path=/var/www/html --email youremail@mail.com --agree-tos --no-eff-email -d domain.com -d www.domain.com
-        volumes:
-            - ./certbot/conf:/etc/letsencrypt
-            - ./certbot/logs:/var/log/letsencrypt
-            - ./certbot/data:/var/www/html
+    #certbot:
+    #    container_name: certbot_odoo
+    #    image: certbot/certbot:latest
+    #    restart: unless-stopped
+    #    command: certonly --webroot --webroot-path=/var/www/html --email bioram@gmail.com --agree-tos --no-eff-email -d domain.com -d bioram.pe
+    #    volumes:
+    #        - ./certbot/conf:/etc/letsencrypt
+    #        - ./certbot/logs:/var/log/letsencrypt
+    #        - ./certbot/data:/var/www/html
 volumes:
     odoo-web-data:
     odoo-db-data:
