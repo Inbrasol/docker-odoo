@@ -1,0 +1,69 @@
+version: "3.9"
+services:
+    traefik:
+        image: traefik:v3.0
+        container_name: traefik
+        command:
+            - "--api.dashboard=true"
+            - "--providers.docker=true"
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.websecure.address=:443"
+            - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+            - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+            - "--certificatesresolvers.myresolver.acme.email=lolo.bravo@inbrasol.pe"
+            - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+            - "./traefik/acme.json:/letsencrypt/acme.json"
+        restart: always
+        networks:
+            - odoo-net
+
+    odoo_sodielec:
+        image: odoo:17
+        container_name: odoo_sodielec
+        environment:
+            - HOST=db-postgresql-odoo-community-do-user-13261802-0.b.db.ondigitalocean.com
+            - PORT=25060
+            - USER=odoo-farmacias
+            - PASSWORD=odoo
+            - DB_NAME=odoo_sodielec
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.sodielec.rule=Host(`sodielec.inbrasol.pe`)"
+            - "traefik.http.routers.sodielec.entrypoints=websecure"
+            - "traefik.http.routers.sodielec.tls.certresolver=myresolver"
+        volumes:
+            - ./clients/sodielec/config:/etc/odoo
+            - ./clients/sodielec/data:/var/lib/odoo
+        restart: always
+        networks:
+            - odoo-net
+
+    odoo_velcar:
+        image: odoo:17
+        container_name: odoo_velcar
+        environment:
+            - HOST=db-postgresql-odoo-community-do-user-13261802-0.b.db.ondigitalocean.com
+            - PORT=25060
+            - USER=odoo-farmacias
+            - PASSWORD=odoo
+            - DB_NAME=odoo_velcar
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.velcar.rule=Host(`velcar.inbrasol.pe`)"
+            - "traefik.http.routers.velcar.entrypoints=websecure"
+            - "traefik.http.routers.velcar.tls.certresolver=myresolver"
+        volumes:
+            - ./clients/velcar/config:/etc/odoo
+            - ./clients/velcar/data:/var/lib/odoo
+        restart: always
+        networks:
+            - odoo-net
+
+networks:
+    odoo-net:
+        driver: bridge
