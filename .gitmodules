@@ -14,10 +14,6 @@
 	path = odoo17farmacias/extra-addons/crm
 	url = git@github.com:Inbrasol/crm.git
 	branch = 17.0
-[submodule "odoo17farmacias/extra-addons/calendar"]
-	path = odoo17farmacias/extra-addons/calendar
-	url = git@github.com:Inbrasol/calendar.git
-	branch = 17.0
 [submodule "odoo17farmacias/extra-addons/storage"]
 	path = odoo17farmacias/extra-addons/storage
 	url = git@github.com:Inbrasol/storage.git
@@ -62,11 +58,15 @@
 	path = odoo17farmacias/extra-addons/sale
 	url = git@github.com:Inbrasol/sale.git
 	branch = 17.0
-[submodule "odoo17farmacias/extra-addons/contact"]
-	path = odoo17farmacias/extra-addons/contact
-	url = git@github.com:Inbrasol/contact.git
-	branch = 17.0
 [submodule "odoo17farmacias/extra-addons/multi-company"]
 	path = odoo17farmacias/extra-addons/multi-company
 	url = git@github.com:Inbrasol/multi-company.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/calendar"]
+	path = odoo17farmacias/extra-addons/calendar
+	url = git@github.com:Inbrasol/calendar.git
+	branch = 17.0
+[submodule "odoo17farmacias/extra-addons/contact"]
+	path = odoo17farmacias/extra-addons/contact
+	url = git@github.com:Inbrasol/contact.git
 	branch = 17.0

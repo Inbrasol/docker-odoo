@@ -1,68 +1,56 @@
+version: "3.9"
+
 services:
-    # Contenedor de inicialización    
-    nginx:
-        image: nginx:alpine
-        container_name: nginx
-        depends_on:
-            - certbot
-        ports:
-            - "80:80"
-            - "443:443"
-        volumes:
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-            - ./certbot/conf:/etc/letsencrypt:ro
-            - ./certbot/www:/var/www/certbot:ro
-            - nginx_cache:/var/cache/nginx
-        restart: unless-stopped
-        networks:
-            - odoo-net
-    
-    certbot:
-        image: certbot/certbot
-        container_name: certbot
-        volumes:
-            - ./certbot/conf:/etc/letsencrypt
-            - ./certbot/www:/var/www/certbot
-        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-        restart: unless-stopped
-    # Contenedor Odoo para Lailengfarma - Base de datos: lailengfarma
-    odoo_lailengfarma:
-        build: .
-        container_name: odoo_lailengfarma
-        environment:
-            - HOST=db-postgresql-odoo-community-do-user-13261802-0.b.db.ondigitalocean.com
-            - PORT=25060
-            - USER=odoo-farmacias
-            - PASSWORD=DemoPassword2026.
-        volumes:
-            - ./conf/lailengfarma.conf:/etc/odoo/odoo.conf:ro
-            - lailengfarma_data:/var/lib/odoo
-        restart: unless-stopped
-        networks:
-            - odoo-net
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:8069/web/health"]
-            interval: 30s
-            timeout: 10s
-            retries: 5
-            start_period: 90s
-        deploy:
-            resources:
-                limits:
-                    memory: 2G
-                    cpus: '2.0'
-                reservations:
-                    memory: 1536M
-                    cpus: '0.5'
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    restart: unless-stopped
+    networks:
+      - odoo-net
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: /bin/sh
+    command: >
+      -c "certbot certonly --webroot
+      --webroot-path=/var/www/certbot
+      --email lolo.bravo@inbrasol.pe
+      --agree-tos
+      --no-eff-email
+      --keep-until-expiring
+      --non-interactive
+      -d lailengfarma.inbrasol.pe"
+    depends_on:
+      - nginx
+
+  odoo_lailengfarma:
+    build: .
+    container_name: odoo_lailengfarma
+    environment:
+      HOST: db-postgresql-odoo-community-do-user-13261802-0.b.db.ondigitalocean.com
+      PORT: 25060
+      USER: odoo-farmacias
+      PASSWORD: Demo
+    volumes:
+      - ./conf/lailengfarma.conf:/etc/odoo/odoo.conf:ro
+      - lailengfarma_data:/var/lib/odoo
+    restart: unless-stopped
+    networks:
+      - odoo-net
+
 volumes:
-    # Volúmenes aislados para Lailengfarma
-    lailengfarma_data:
-        driver: local
-    
-    # Volumen para cache de NGINX
-    nginx_cache:
-        driver: local
+  lailengfarma_data:
 
 networks:
-    odoo-net:
-        driver: bridge
+  odoo-net:
