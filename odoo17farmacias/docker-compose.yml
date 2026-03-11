@@ -1,56 +1,65 @@
-version: "3.9"
-
 services:
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./certbot/www:/var/www/certbot
-      - ./certbot/conf:/etc/letsencrypt
-    restart: unless-stopped
-    networks:
-      - odoo-net
-
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    entrypoint: /bin/sh
-    command: >
-      -c "certbot certonly --webroot
-      --webroot-path=/var/www/certbot
-      --email lolo.bravo@inbrasol.pe
-      --agree-tos
-      --no-eff-email
-      --keep-until-expiring
-      --non-interactive
-      -d lailengfarma.inbrasol.pe"
-    depends_on:
-      - nginx
-
-  odoo_lailengfarma:
-    build: .
-    container_name: odoo_lailengfarma
-    environment:
-      HOST: db-postgresql-odoo-community-do-user-13261802-0.b.db.ondigitalocean.com
-      PORT: 25060
-      USER: odoo-farmacias
-      PASSWORD: Demo
-    volumes:
-      - ./conf/lailengfarma.conf:/etc/odoo/odoo.conf:ro
-      - lailengfarma_data:/var/lib/odoo
-    restart: unless-stopped
-    networks:
-      - odoo-net
-
+    odoo:
+        container_name: odoo_farmacias_server
+        image: odoo:17.0
+        restart: unless-stopped
+        volumes:
+            - odoo-web-data:/var/lib/odoo
+            - ./conf:/etc/odoo
+            - ./extra-addons:/mnt/extra-addons
+        ports:
+            - "9069:9069"
+        depends_on:
+            - postgres
+    postgres:
+        image: postgres:16
+        restart: unless-stopped
+        container_name: postgres_odoo
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_PASSWORD=odoo
+            - POSTGRES_USER=odoo
+            - PGDATA=/var/lib/postgresql/data/pgdata
+        volumes:
+            - odoo-db-data:/var/lib/postgresql/data/pgdata
+    nginx:
+      image: nginx:latest
+      container_name: nginx_odoo
+      restart: unless-stopped
+      depends_on:
+        - odoo
+      ports:
+        - "80:80"
+        - "443:443"
+      volumes:
+        - ./nginx/conf:/etc/nginx/conf.d
+        - ./certbot/conf:/etc/letsencrypt
+        - ./certbot/data:/var/www/html
+    #certbot:
+    #  image: certbot/certbot:latest
+    #  container_name: certbot_odoo
+    #  command: certonly --webroot -w /var/www/html \
+    #           -d bioram.inbrasol.pe \
+    #           --non-interactive --agree-tos -m admin@bioram.inbrasol.pe \
+    #           --no-eff-email --logs-dir=/dev/null
+    #  volumes:
+    #    - ./certbot/conf:/etc/letsencrypt
+    #    - ./certbot/data:/var/www/html
+    #certbot-renew:
+    #  image: certbot/certbot:latest
+    #  container_name: certbot_renew
+    #  entrypoint: >
+    #    sh -c 'while true; do
+    #             certbot renew --webroot -w /var/www/html --quiet --logs-dir=/dev/null;
+    #             nginx -s reload;
+    #             sleep 12h;
+    #           done'
+    #  volumes:
+    #    - ./certbot/conf:/etc/letsencrypt
+    #    - ./certbot/data:/var/www/html
+    #    - ./nginx/conf:/etc/nginx/conf.d
+    #  depends_on:
+    #    - nginx
 volumes:
-  lailengfarma_data:
-
-networks:
-  odoo-net:
+    odoo-web-data:
+    odoo-db-data:
